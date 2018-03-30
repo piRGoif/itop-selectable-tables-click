@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="5.3.0" />
+  <component name="ProjectDictionaryState">
+    <dictionary name="pgoiffon" />
+  </component>
+  <component name="SaveActionSettings">
+    <option name="actions">
+      <set>
+        <option value="activate" />
+        <option value="organizeImports" />
+        <option value="reformat" />
+        <option value="reformatChangedCode" />
+      </set>
+    </option>
+  </component>
+</project>
