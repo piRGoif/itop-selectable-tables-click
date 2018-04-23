@@ -1,9 +1,7 @@
-$(document).ready(function() {
-	//TODO blue background color for selected lines
+$(document).ready(function () {
+	var $lineSelectionCheckboxes = $("table").find("tbody>tr>td>input:checkbox");
 
-	var $tablesWithSelectableLines = $("table").find("tbody>tr>td>input:checkbox").closest("table");
-	//FIXME error if none found
-	$tablesWithSelectableLines.off(); //FIXME only here for scratchpad use
+	var $tablesWithSelectableLines = $lineSelectionCheckboxes.closest("table");
 	$tablesWithSelectableLines.css("cursor", "pointer");
 	$tablesWithSelectableLines.on("click", "tbody>tr", function (event) {
 		var $eventTarget = $(event.target);
