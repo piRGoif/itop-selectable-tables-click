@@ -1,0 +1,8 @@
+table.table-with-selectable-lines>tbody>tr.selected>* {
+    background-color: #EA7D1E66;
+}
+
+table.table-with-selectable-lines>tbody>tr.selected:hover>* {
+    /* hiver on lines is currently done toggling td.hover, and having a rule for links */
+    background-color: #fdf5d0;
+}
