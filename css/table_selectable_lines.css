@@ -3,6 +3,6 @@ table.table-with-selectable-lines>tbody>tr.selected>* {
 }
 
 table.table-with-selectable-lines>tbody>tr.selected:hover>* {
-    /* hiver on lines is currently done toggling td.hover, and having a rule for links */
+    /* hover on lines is currently done toggling td.hover, and having a rule for links */
     background-color: #fdf5d0;
 }
