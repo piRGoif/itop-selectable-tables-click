@@ -1,13 +1,11 @@
+
 $(document).ready(function () {
-	var LINE_SELECTION_CHECKOXES_SELECTOR = "tbody>tr>td>input:checkbox";
 	var SELECTED_CLASS = "selected";
+	var TABLE_SELECTOR = 'table.listResults';
+	var LINE_SELECTION_CHECKOXES_SELECTOR = "tbody>tr>td:first-child>input:checkbox";
 
-	var $lineSelectionCheckboxes = $("table").find(LINE_SELECTION_CHECKOXES_SELECTOR);
-	var $tablesWithSelectableLines = $lineSelectionCheckboxes.closest("table");
 
-	$tablesWithSelectableLines.addClass("table-with-selectable-lines");
-	$tablesWithSelectableLines.css("cursor", "pointer");
-	$tablesWithSelectableLines.on("click", "tbody>tr", function (event) {
+	$(document).on('click', TABLE_SELECTOR+':has('+LINE_SELECTION_CHECKOXES_SELECTOR+')', function (event) {
 		var $eventTarget = $(event.target);
 		if ($eventTarget.is("a")) {
 			return;
@@ -16,17 +14,20 @@ $(document).ready(function () {
 			return;
 		}
 
-		var $lineCheckbox = $eventTarget.closest("tr").find("td>input:checkbox");
-		$lineCheckbox.click();
+		var $lineClicked = $eventTarget.closest("tr");
+		var $lineClickedCheckbox = $lineClicked.find("td>input:checkbox");
+		$lineClickedCheckbox.click();
 	});
-	$tablesWithSelectableLines.on("change", LINE_SELECTION_CHECKOXES_SELECTOR, function(event) {
+
+	$(document).on('change', TABLE_SELECTOR+':has('+LINE_SELECTION_CHECKOXES_SELECTOR+')', function (event) {
 		var $eventTarget = $(event.target);
 		var $selectedLine = $eventTarget.closest("tr");
 		$selectedLine.toggleClass(SELECTED_CLASS);
 	});
 
 	// check_all event is fired for tableSorter JQuery plugin
-	$tablesWithSelectableLines.on("check_all", function() {
+	$(document).on("check_all", TABLE_SELECTOR+':has('+LINE_SELECTION_CHECKOXES_SELECTOR+')', function () {
 		$(this).find("tbody>tr").toggleClass(SELECTED_CLASS);
 	});
 });
+
