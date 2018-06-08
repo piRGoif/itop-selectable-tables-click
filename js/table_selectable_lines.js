@@ -7,10 +7,16 @@ $(document).ready(function () {
 
 	$(document).on('click', TABLE_SELECTOR+':has('+LINE_SELECTION_CHECKOXES_SELECTOR+')', function (event) {
 		var $eventTarget = $(event.target);
-		if ($eventTarget.is("a")) {
+		if ($eventTarget.is("a, button")) {
 			return;
 		}
-		if ($eventTarget.is("button")) {
+		if ($eventTarget.parent().is('a, button')) {
+			return;
+		}
+		if ($eventTarget.is("input, select, option")) {
+			return;
+		}
+		if ($eventTarget.is("img")) { // too hard to determine if an event handler is attached so => nazi style
 			return;
 		}
 
@@ -21,6 +27,10 @@ $(document).ready(function () {
 
 	$(document).on('change', TABLE_SELECTOR+':has('+LINE_SELECTION_CHECKOXES_SELECTOR+')', function (event) {
 		var $eventTarget = $(event.target);
+		if (!$eventTarget.is("input:checkbox")) {
+			return;
+		}
+
 		var $selectedLine = $eventTarget.closest("tr");
 		$selectedLine.toggleClass(SELECTED_CLASS);
 	});
