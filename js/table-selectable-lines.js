@@ -36,13 +36,26 @@ $(document).ready(function () {
 			return;
 		}
 
-		var $selectedLine = $eventTarget.closest("tr");
-		$selectedLine.toggleClass(SELECTED_CLASS);
+		updateLines($eventTarget);
 	});
 
 	// check_all event is fired for tableSorter JQuery plugin
 	$(document).on("check_all", TABLE_SELECTOR+':has('+LINE_WITH_INPUT_SELECTOR+')', function () {
 		$(this).find("tbody>tr").toggleClass(SELECTED_CLASS);
 	});
-});
 
+
+	function updateLines($inputChanged) {
+		var $selectedLine = $inputChanged.closest("tr");
+
+		if ($inputChanged.is('input:radio')) {
+			// didn't find a proper event fired when radio is deselected... so doing this !
+			$selectedLine
+				.closest('table')
+				.find('tr')
+				.removeClass(SELECTED_CLASS);
+		}
+
+		$selectedLine.toggleClass(SELECTED_CLASS);
+	}
+});
