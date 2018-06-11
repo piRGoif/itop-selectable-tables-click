@@ -5,7 +5,7 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'itop_selectable_tables_click/0.0.1',
+	'itop-selectable-tables-click/0.0.1',
 	array(
 		// Identification
 		//
@@ -21,7 +21,7 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.itop_selectable_tables_click.php'
+			'model.itop-selectable-tables-click.php'
 		),
 		'webservice' => array(),
 		'data.struct' => array(// add your 'structure' definition XML files here,
