@@ -43,6 +43,11 @@ $(document).ready(function () {
 	$(document).on("check_all", TABLE_SELECTOR+':has('+LINE_WITH_INPUT_SELECTOR+')', function () {
 		$(this).find("tbody>tr").toggleClass(SELECTED_CLASS);
 	});
+	// update when clicking on the header checkbox (no event fired, and line updates using .prop() : we need to catch it ourselves !)
+	$(document).on("click", TABLE_SELECTOR+'>thead>tr>th:first-child>input:checkbox', function () {
+		$(this).closest("table").find("tbody>tr").toggleClass(SELECTED_CLASS);
+	});
+
 
 
 	function updateLines($inputChanged) {
