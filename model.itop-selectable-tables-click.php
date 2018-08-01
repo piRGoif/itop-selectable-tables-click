@@ -9,7 +9,9 @@ class SelectableTablesClickApplication implements iPageUIExtension
 	 */
 	public function GetNorthPaneHtml(iTopWebPage $oPage)
 	{
-		$oPage->add_linked_stylesheet(utils::GetCurrentModuleUrl().'/css/table-selectable-lines.css');
+		$oPage->add_saas('env-'.utils::GetCurrentEnvironment()
+			.'/'.utils::GetCurrentModuleDir(0)
+			.'/css/table-selectable-lines.scss');
 		$oPage->add_linked_script(utils::GetCurrentModuleUrl().'/js/table-selectable-lines.js');
 	}
 
