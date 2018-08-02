@@ -6,31 +6,41 @@ $(document).ready(function () {
 	// we want to select :radio and :checkbox, but there is no :is() selector, so we're using existing :not()
 	// not ideal but I don't have a better idea for now :/
 	var INPUT_SELECTOR = 'input:not([type=image],[type=button],[type=submit])';
-	var CELL_WITH_INPUT_SELECTOR = 'td:first-child>'+INPUT_SELECTOR;
-	var LINE_WITH_INPUT_SELECTOR = "tbody>tr>"+CELL_WITH_INPUT_SELECTOR;
+
+	var FIRST_CELL_WITH_INPUT_SELECTOR = 'td:first-child>'+INPUT_SELECTOR;
+	var LINE_WITH_INPUT_IN_FIRST_CELL_SELECTOR = "tbody>tr>"+FIRST_CELL_WITH_INPUT_SELECTOR;
+	var CELLS_WITH_INPUT_SELECTOR = 'td>'+INPUT_SELECTOR;
+	var LINE_WITH_INPUTS_SELECTOR = "tbody>tr>"+CELLS_WITH_INPUT_SELECTOR;
 
 
-	$(document).on('click', TABLE_SELECTOR+':has('+LINE_WITH_INPUT_SELECTOR+')', function (event) {
+	// Tables with inputs inside cells
+	$(document).on('click', TABLE_SELECTOR+':has('+LINE_WITH_INPUTS_SELECTOR+')', function (event) {
 		var $eventTarget = $(event.target);
-		if ($eventTarget.is("a, button")) {
+		if (shouldExitHandler($eventTarget)) {
 			return;
 		}
-		if ($eventTarget.parent().is('a, button')) {
-			return;
+
+		var $cellClicked = $eventTarget.closest("td");
+		var $cellClickedInput = $cellClicked.find(INPUT_SELECTOR);
+		if ($cellClickedInput.length === 1) {
+			$cellClickedInput.click();
 		}
-		if ($eventTarget.is("input, select, option")) {
-			return;
-		}
-		if ($eventTarget.is("img")) { // too hard to determine if an event handler is attached so => nazi style
+	});
+
+
+	// Tables with one input in the first cell to select lines
+	$(document).on('click', TABLE_SELECTOR+':has('+LINE_WITH_INPUT_IN_FIRST_CELL_SELECTOR+')', function (event) {
+		var $eventTarget = $(event.target);
+		if (shouldExitHandler($eventTarget)) {
 			return;
 		}
 
 		var $lineClicked = $eventTarget.closest("tr");
-		var $lineClickedCheckbox = $lineClicked.find(CELL_WITH_INPUT_SELECTOR);
-		$lineClickedCheckbox.click();
+		var $lineClickedInput = $lineClicked.find(FIRST_CELL_WITH_INPUT_SELECTOR);
+		$lineClickedInput.click();
 	});
 
-	$(document).on('change', TABLE_SELECTOR+':has('+LINE_WITH_INPUT_SELECTOR+')', function (event) {
+	$(document).on('change', TABLE_SELECTOR+':has('+LINE_WITH_INPUT_IN_FIRST_CELL_SELECTOR+')', function (event) {
 		var $eventTarget = $(event.target);
 		if (!$eventTarget.is(INPUT_SELECTOR)) {
 			return;
@@ -40,13 +50,37 @@ $(document).ready(function () {
 	});
 
 	// check_all event is fired for tableSorter JQuery plugin
-	$(document).on("check_all", TABLE_SELECTOR+':has('+LINE_WITH_INPUT_SELECTOR+')', function () {
+	$(document).on("check_all", TABLE_SELECTOR+':has('+LINE_WITH_INPUT_IN_FIRST_CELL_SELECTOR+')', function () {
 		$(this).find("tbody>tr").toggleClass(SELECTED_CLASS);
 	});
-	// update when clicking on the header checkbox (no event fired, and line updates using .prop() : we need to catch it ourselves !)
+	// update when clicking on the header checkbox/radio input (no event fired, and line updates using .prop() :
+	// we need to catch it ourselves !)
 	$(document).on("click", TABLE_SELECTOR+'>thead>tr>th:first-child>input:checkbox', function () {
 		$(this).closest("table").find("tbody>tr").toggleClass(SELECTED_CLASS);
 	});
+
+
+	/**
+	 * Our custom handlers chould run only if clicking on somewhere without event already attached !
+	 * @param $eventTarget
+	 * @returns {boolean} true if our custom handler shouldn't be run
+	 */
+	function shouldExitHandler($eventTarget) {
+		if ($eventTarget.is("a, button")) {
+			return true;
+		}
+		if ($eventTarget.parent().is('a, button')) {
+			return true;
+		}
+		if ($eventTarget.is("input, select, option")) {
+			return true;
+		}
+		if ($eventTarget.is("img")) { // too hard to determine if an event handler is attached so excluding all !
+			return true;
+		}
+
+		return false;
+	}
 
 
 
