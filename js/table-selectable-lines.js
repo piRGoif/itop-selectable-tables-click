@@ -56,6 +56,8 @@ $(document).ready(function () {
 	// update when clicking on the header checkbox/radio input (no event fired, and line updates using .prop() :
 	// we need to catch it ourselves !)
 	$(document).on("click", TABLE_SELECTOR+'>thead>tr>th:first-child>input:checkbox', function () {
+		//FIXME for line that are not changing state we are wrongly toggling the selection CSS class...
+		// will be solved after integration in iTop !
 		$(this).closest("table").find("tbody>tr").toggleClass(SELECTED_CLASS);
 	});
 
